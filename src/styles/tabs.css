@@ -1,9 +1,7 @@
-.influencers-tab{
-    background-color: rgb(255, 255, 255);
-}
+
 .banner{
     background-color: rgba(59, 124, 245, 0.235);
-    color: rgb(6, 104, 189);
+    color: rgb(16, 75, 224);
 }
 .nav{
     padding: 10px;
@@ -31,4 +29,30 @@
 }
 .nav-item{
   text-align: center;
+}
+.tabs{
+    position: relative;
+    min-height: 100vh;
+}
+.tabs .add{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10px;
+}
+.tabs .add .bi-plus-circle{
+    font-size: 2rem;
+}
+.tabs .add .nav-link{
+    background-color: rgb(16, 75, 224) !important;
+    border-radius: 100px !important;
+    
+}
+.tabs .add .nav-link:hover{
+    color: #f6f6f6 !important;
+    transform: scale(0.9);
+}
+.tabs .add .active{
+    background-color: rgb(16, 75, 224) !important;
+    color: #fff !important;
 }

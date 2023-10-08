@@ -7,10 +7,11 @@ import Users from './Users';
 
 function Tabs() {
   return (
-    <Tab.Container id="my-tabs" defaultActiveKey="tab1">
+  <div className="tabs">
+      <Tab.Container id="my-tabs" defaultActiveKey="tab1">
       <Nav variant="tabs">
-        <Nav.Item>
-          <Nav.Link eventKey="tab1"><i class="bi bi-plus-circle"></i> Add Influencers</Nav.Link>
+      <Nav.Item className='add'>
+          <Nav.Link eventKey="tab1"><i class="bi bi-plus-circle"></i></Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="tab2"><i class="bi bi-people-fill"></i> Users</Nav.Link>
@@ -21,10 +22,10 @@ function Tabs() {
       </Nav>
 
       <Tab.Content>
-        <Tab.Pane eventKey="tab1">
+        <Tab.Pane eventKey="tab1" className='influencers-tab'>
           <InfluencerForm/>
         </Tab.Pane>
-        <Tab.Pane eventKey="tab2" className='influencers-tab'>
+        <Tab.Pane eventKey="tab2" >
           <Users/>
         </Tab.Pane>
         <Tab.Pane eventKey="tab3">
@@ -32,6 +33,7 @@ function Tabs() {
         </Tab.Pane>
       </Tab.Content>
     </Tab.Container>
+  </div>
   );
 }
 
