@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import Loadingmodal from './Loadingmodal';
 
 function InfluencerForm() {
+    const [loading, setLoading] = useState(false);
   const [influencer, setInfluencer] = useState({
     name: '',
     email: '',
@@ -18,15 +20,18 @@ function InfluencerForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(influencer)
+    setLoading(true)
     try {
         axios.post('https://teal-fluffy-hen.cyclic.app/api/influencers/add', influencer)
         .then(response => {
           // Handle the response data here
+        setLoading(false)
           toast.success("influencer created successfully")
           console.log(response);
         })
         .catch(error => {
           // Handle any errors here
+         setLoading(false)
           toast.error(error)
           console.error(error);
         });
@@ -39,6 +44,9 @@ function InfluencerForm() {
 
   return (
     <div>
+        {
+            loading?<Loadingmodal/> : null
+        }
       <div className="banner text-center p-3">
       <h5>Create Influencer</h5>
       </div>

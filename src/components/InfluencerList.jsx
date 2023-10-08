@@ -2,17 +2,21 @@ import React, { useState, useEffect } from 'react';
 import '../styles/influencerslist.css'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Loadingmodal from './Loadingmodal';
 
 function InfluencerList() {
   const [influencers, setInfluencers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch influencer data from the API endpoint
     axios.get('https://teal-fluffy-hen.cyclic.app/api/influencers/list')
       .then((response) => {
         setInfluencers(response.data);
+        setLoading(false)
       })
       .catch((error) => {
+        setLoading(true)
         console.error('Error fetching influencers:', error);
       });
   }, []);
@@ -32,6 +36,9 @@ function InfluencerList() {
 
   return (
     <div>
+                {
+            loading?<Loadingmodal/> : null
+        }
     <div className="banner text-center p-4 mb-3">
     <h5>Influencers List</h5>
     </div>

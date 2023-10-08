@@ -2,18 +2,22 @@ import React, { useState, useEffect } from 'react';
 import '../styles/influencerslist.css'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Loadingmodal from './Loadingmodal';
 
 function Users() {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch influencer data from the API endpoint
     axios.get('https://teal-fluffy-hen.cyclic.app/api/users/list')
       .then((response) => {
         setUsers(response.data);
+        setLoading(false)
       })
       .catch((error) => {
         console.error('Error fetching influencers:', error);
+        setLoading(true)
       });
   }, []);
   const handleDelete = (userId) => {
@@ -32,6 +36,9 @@ function Users() {
 
   return (
     <div>
+                {
+            loading?<Loadingmodal/> : null
+        }
     <div className="banner text-center p-4 mb-3">
     <h5>Users List</h5>
     </div>
