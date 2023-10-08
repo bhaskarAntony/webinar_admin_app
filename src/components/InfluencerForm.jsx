@@ -42,7 +42,7 @@ function InfluencerForm() {
       <div className="banner text-center p-3">
       <h5>Create Influencer</h5>
       </div>
-      <div className="container">
+      <div className="container mt-3">
         <div className="row">
             <div className="col-12">
             <div className="card p-3">
