@@ -1,0 +1,78 @@
+.influencer{
+    margin-bottom: 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    min-height: 200px;
+}
+.influencer .name{
+    padding: 6px;
+    padding-top: 15px;
+    background: linear-gradient(45deg, #1f5de3, #1b5be6);
+}
+.influencer *{
+    line-height: 0.8;
+}
+.all-influencers{
+    /* background-color: black; */
+}
+.profile img{
+    border-radius: 80px;
+    max-width: 50px;
+    max-height: 50px;
+    padding: 5px;
+    border: 2px solid #4788e3;
+    position: absolute;
+}
+.profile{
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #adadae4c;
+}
+.influencer .btns{
+    display: flex;
+    gap: 10px;
+}
+.send, .delete{
+    width: fit-content;
+    padding: 5px 10px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aqua;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.send{
+    background-color: rgba(59, 124, 245, 0.235);
+    color: rgb(6, 104, 189);
+}
+.delete{
+    background-color: rgba(255, 26, 60, 0.296);
+    color: rgb(244, 15, 53);
+}
+.send:hover, .delete:hover{
+    opacity: 0.6;
+}
+.coupon-code{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    /* padding: 10px 0px; */
+    background-color: #fff71b2e;
+    padding: 5px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #b8b800;
+}
+.coupon-code p{
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #aa8c06;
+}
