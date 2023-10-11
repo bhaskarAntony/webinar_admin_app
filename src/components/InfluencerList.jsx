@@ -26,7 +26,7 @@ function InfluencerList() {
       .then(() => {
         // Remove the deleted influencer from the state
         setInfluencers((prevInfluencers) => prevInfluencers.filter((influencer) => influencer._id !== influencerId));
-        toast.success('Influencer deleted successfully');
+        toast.error('Influencer deleted successfully');
       })
       .catch((error) => {
         console.error('Error deleting influencer:', error);

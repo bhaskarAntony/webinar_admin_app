@@ -28,6 +28,11 @@ function InfluencerForm() {
         setLoading(false)
           toast.success("influencer created successfully")
           console.log(response);
+          setInfluencer({
+            name: '',
+            email: '',
+            couponCode: '',
+          })
         })
         .catch(error => {
           // Handle any errors here
