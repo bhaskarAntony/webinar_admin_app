@@ -10,7 +10,7 @@ function InfluencerList() {
 
   useEffect(() => {
     // Fetch influencer data from the API endpoint
-    axios.get('https://teal-fluffy-hen.cyclic.app/api/influencers/list')
+    axios.get('https://emerald-sockeye-tux.cyclic.app/api/influencers/list')
       .then((response) => {
         setInfluencers(response.data);
         setLoading(false)
@@ -22,7 +22,7 @@ function InfluencerList() {
   }, []);
   const handleDelete = (influencerId) => {
     // Send a DELETE request to your backend to delete the influencer
-    axios.delete(`https://teal-fluffy-hen.cyclic.app/api/influencers/delete/${influencerId}`)
+    axios.delete(`https://emerald-sockeye-tux.cyclic.app/api/influencers/delete/${influencerId}`)
       .then(() => {
         // Remove the deleted influencer from the state
         setInfluencers((prevInfluencers) => prevInfluencers.filter((influencer) => influencer._id !== influencerId));
@@ -62,9 +62,6 @@ function InfluencerList() {
                      </div>
                        {/* <hr /> */}
                        <div className="btns mt-4">
-                        <div className="send">
-                        <i class="bi bi-envelope-arrow-up-fill mx-1"></i> Mail
-                        </div>
                         <div className="delete"  onClick={() => handleDelete(influencer._id)}>
                         <i class="bi bi-trash3-fill mx-1"></i>  delete
                         </div>

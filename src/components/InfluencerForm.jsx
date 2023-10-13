@@ -22,7 +22,7 @@ function InfluencerForm() {
     console.log(influencer)
     setLoading(true)
     try {
-        axios.post('https://teal-fluffy-hen.cyclic.app/api/influencers/add', influencer)
+        axios.post('https://emerald-sockeye-tux.cyclic.app/api/influencers/add', influencer)
         .then(response => {
           // Handle the response data here
         setLoading(false)
