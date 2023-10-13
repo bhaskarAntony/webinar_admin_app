@@ -4,10 +4,26 @@ import { toast } from 'react-toastify';
 import Loadingmodal from './Loadingmodal';
 import '../styles/users.css'
 import * as XLSX from 'xlsx';
+import copy from 'clipboard-copy';
+
 
 function Confirmed() {
   const [ConfirmedUsers, setConfirmedUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [influencers, setInfluencers] = useState([]);
+    useEffect(() => {
+      // Fetch influencer data from the API endpoint
+      axios.get('https://emerald-sockeye-tux.cyclic.app//api/influencers/list')
+        .then((response) => {
+          setInfluencers(response.data);
+          console.log("influencers", response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching influencers:', error);
+        });
+    }, []);
+
 
   useEffect(() => {
     // Fetch user data from the API endpoint
@@ -23,6 +39,7 @@ function Confirmed() {
         // Handle the error here, e.g., toast.error('Failed to fetch users');
       });
   }, []);
+  
 
   function downloadExcel(data) {
     // Create a worksheet from your data
@@ -46,6 +63,17 @@ function Confirmed() {
     a.click();
     document.body.removeChild(a);
   }
+  const handleCopyClick = (text) => {
+    return () => {
+      copy(text)
+        .then(() => {
+          toast.success(text, "copied")
+        })
+        .catch((error) => {
+          console.error('Copy failed: ', error);
+        });
+    };
+  };
   
   const handleDelete = (userId) => {
     // Send a DELETE request to your backend to delete the user
@@ -91,7 +119,7 @@ function Confirmed() {
                   <small className="text-success">Coupon code</small>
                   <div className="coupon-code mt-2">
                     <p>{user.coupon}</p>
-                    <i className="bi bi-copy"></i>
+                    <i className="bi bi-copy" onClick={handleCopyClick(user.coupon)}></i>
                   </div>
                   <div className="btns mt-4">
                         <div className="delete"  onClick={() => handleDelete(user._id)}>

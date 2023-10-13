@@ -2,12 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Loadingmodal from './Loadingmodal';
+import InfluenceEmail from '../template/influence';
 import '../styles/users.css'
+
+const URL = "https://email-api-r1kd.onrender.com"
 
 function Users() {
   const [users, setUsers] = useState([]);
   const [ConfirmedUser, setConfirmedUser] = useState({});
   const [loading, setLoading] = useState(true);
+
+   const [influencers, setInfluencers] = useState([]);
+    useEffect(() => {
+      // Fetch influencer data from the API endpoint
+      axios.get('https://emerald-sockeye-tux.cyclic.app//api/influencers/list')
+        .then((response) => {
+          setInfluencers(response.data);
+          console.log("influencers", response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching influencers:', error);
+        });
+    }, []);
 
   useEffect(() => {
     // Fetch user data from the API endpoint
@@ -24,7 +40,7 @@ function Users() {
       });
   }, []);
 
-  const confirm = (c_name, c_email, c_mobile, c_coupon, id) => {
+  const confirm =async (c_name, c_email, c_mobile, c_coupon, id) => {
     setLoading(true);
     const confirmedUser = {
       name: c_name,
@@ -32,6 +48,39 @@ function Users() {
       mobile: c_mobile,
       coupon: c_coupon,
     };
+      const influencer = influencers.find((i) => i.couponCode === c_coupon);
+
+      if (influencer) {
+        // If a match is found, send an email to the influencer's email address
+        console.log(influencer)
+        try {
+            let influencerData = InfluenceEmail(c_name, c_email, c_mobile, c_coupon, influencer.email);
+            let influencerTo = influencer.email; // Influencer's email address
+            let influencerSub = "user registered payment is successfull";
+
+            let influencerMail = {
+                to: influencerTo,
+                subject: influencerSub,
+                content: influencerData,
+            };
+
+            setLoading(true);
+
+            await axios
+                .post(`${URL}/api/send/mail`, influencerMail)
+                .then((res) => {
+                    setLoading(false);
+                    // You can add a toast or message here for the influencer
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    console.error("Error sending influencer email:", err.message);
+                    toast.error("Failed to send influencer email. Please try again.");
+                });
+        } catch (err) {
+            console.error("Error sending influencer email:", err.message);
+        }
+    }
 
     try {
       axios
