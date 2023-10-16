@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import Loadingmodal from './Loadingmodal';
 import InfluenceEmail from '../template/influence';
 import '../styles/users.css'
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
 
 const URL = "https://email-api-r1kd.onrender.com"
 
@@ -25,6 +27,31 @@ function Users() {
         });
     }, []);
 
+    function downloadExcel(data) {
+      // Create a worksheet from your data
+      const ws = XLSX.utils.json_to_sheet(data);
+    
+      // Create a workbook with the worksheet
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    
+      // Generate a data URI for the Excel file
+      const excelDataURI = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+    
+      // Convert the data URI to binary data
+      const byteCharacters = atob(excelDataURI);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+    
+      // Create a Blob from the binary data
+      const excelBlob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    
+      // Use FileSaver.js to save the Blob as a file
+      saveAs(excelBlob, 'users.xlsx');
+    }
   useEffect(() => {
     // Fetch user data from the API endpoint
     axios
@@ -122,6 +149,9 @@ function Users() {
       {loading ? <Loadingmodal /> : null}
       <div className="banner text-center p-4 mb-3">
         <h5>Confirmation Pending Users List</h5>
+      </div>
+      <div className="download text-center mb-3">
+      <button className='btn bg-success text-white p-3' onClick={() => downloadExcel(users)}><i class="bi bi-file-earmark-arrow-down-fill"></i> Download Excel</button>
       </div>
       <div className="container all-users">
         <div className="row">
