@@ -5,6 +5,7 @@ import InfluencerForm from './InfluencerForm';
 import InfluencerList from './InfluencerList';
 import Users from './Users';
 import Confirmed from './Confirmed';
+import Attendees from './Attendees';
 
 function Tabs() {
   return (
@@ -23,6 +24,9 @@ function Tabs() {
         <Nav.Item>
           <Nav.Link eventKey="tab4"><i class="bi bi-check2"></i> Confirmed</Nav.Link>
         </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="tab5"><i class="bi bi-check2"></i>Attendees</Nav.Link>
+        </Nav.Item>
       </Nav>
 
       <Tab.Content>
@@ -37,6 +41,9 @@ function Tabs() {
         </Tab.Pane>
         <Tab.Pane eventKey="tab4">
          <Confirmed/>
+        </Tab.Pane>
+        <Tab.Pane eventKey="tab5">
+         <Attendees/>
         </Tab.Pane>
       </Tab.Content>
     </Tab.Container>

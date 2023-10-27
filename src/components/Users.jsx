@@ -128,6 +128,28 @@ function Users() {
       console.error('Error:', error);
     }
   };
+  const confirmAll = () => {
+    setLoading(true);
+
+    // Create an array of promises for each user confirmation
+    const confirmationPromises = users.map((user) => {
+      return confirm(user.name, user.email, user.mobile, user.coupon, user._id);
+    });
+
+    // Use Promise.all to wait for all confirmations to complete
+    Promise.all(confirmationPromises)
+      .then(() => {
+        // After all confirmations are done, clear the users' state
+        setUsers([]);
+        setLoading(false);
+        toast.success('All users confirmed and cleared from the list');
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error('Error confirming users: ' + error);
+        console.error(error);
+      });
+  };
 
   const handleDelete = (userId) => {
     // Send a DELETE request to your backend to delete the user
@@ -153,6 +175,9 @@ function Users() {
       <div className="download text-center mb-3">
       <button className='btn bg-success text-white p-3' onClick={() => downloadExcel(users)}><i class="bi bi-file-earmark-arrow-down-fill"></i> Download Excel</button>
       </div>
+      {/* <div className="confirm-all text-center mb-3">
+      <button className='btn bg-primary text-white p-3' id='confirm-all' onClick={confirmAll}><i class="bi bi-file-earmark-arrow-down-fill"></i> Confirm all</button>
+      </div> */}
       <div className="container all-users">
         <div className="row">
           {users.map((user) => (
