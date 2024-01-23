@@ -16,7 +16,7 @@ function Attendees() {
   useEffect(() => {
     // Fetch user data from the API endpoint
     axios
-      .get('https://emerald-sockeye-tux.cyclic.app/api/attendee/all')
+      .get('https://dull-trousers-deer.cyclic.app/api/attendee/all')
       .then((response) => {
         setAttendees(response.data);
         setLoading(false);

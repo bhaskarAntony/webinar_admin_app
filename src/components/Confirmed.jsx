@@ -14,7 +14,7 @@ function Confirmed() {
   const [influencers, setInfluencers] = useState([]);
     useEffect(() => {
       // Fetch influencer data from the API endpoint
-      axios.get('https://emerald-sockeye-tux.cyclic.app//api/influencers/list')
+      axios.get('https://dull-trousers-deer.cyclic.app/api/influencers/list')
         .then((response) => {
           setInfluencers(response.data);
           console.log("influencers", response.data);

@@ -6,26 +6,27 @@ import InfluenceEmail from '../template/influence';
 import '../styles/users.css'
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
+import Email from '../template/email';
 
 const URL = "https://email-api-r1kd.onrender.com"
 
 function Users() {
   const [users, setUsers] = useState([]);
-  const [ConfirmedUser, setConfirmedUser] = useState({});
+  // const [ConfirmedUser, setConfirmedUser] = useState({});
   const [loading, setLoading] = useState(true);
 
-   const [influencers, setInfluencers] = useState([]);
-    useEffect(() => {
-      // Fetch influencer data from the API endpoint
-      axios.get('https://emerald-sockeye-tux.cyclic.app//api/influencers/list')
-        .then((response) => {
-          setInfluencers(response.data);
-          console.log("influencers", response.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching influencers:', error);
-        });
-    }, []);
+  // //  const [influencers, setInfluencers] = useState([]);
+  //   useEffect(() => {
+  //     // Fetch influencer data from the API endpoint
+  //     axios.get('https://dull-trousers-deer.cyclic.app/api/users/list')
+  //       .then((response) => {
+  //         setInfluencers(response.data);
+  //         console.log("influencers", response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error fetching influencers:', error);
+  //       });
+  //   }, []);
 
     function downloadExcel(data) {
       // Create a worksheet from your data
@@ -55,7 +56,7 @@ function Users() {
   useEffect(() => {
     // Fetch user data from the API endpoint
     axios
-      .get('https://emerald-sockeye-tux.cyclic.app/api/users/list')
+      .get('https://dull-trousers-deer.cyclic.app/api/cloud/list')
       .then((response) => {
         setUsers(response.data);
         setLoading(false);
@@ -67,89 +68,58 @@ function Users() {
       });
   }, []);
 
-  const confirm =async (c_name, c_email, c_mobile, c_coupon, id) => {
-    setLoading(true);
-    const confirmedUser = {
-      name: c_name,
-      email: c_email,
-      mobile: c_mobile,
-      coupon: c_coupon,
-    };
-      const influencer = influencers.find((i) => i.couponCode === c_coupon);
-
-      if (influencer) {
-        // If a match is found, send an email to the influencer's email address
-        console.log(influencer)
-        try {
-            let influencerData = InfluenceEmail(c_name, c_email, c_mobile, c_coupon, influencer.email);
-            let influencerTo = influencer.email; // Influencer's email address
-            let influencerSub = "user registered payment is successfull";
-
-            let influencerMail = {
-                to: influencerTo,
-                subject: influencerSub,
-                content: influencerData,
-            };
-
-            setLoading(true);
-
-            await axios
-                .post(`${URL}/api/send/mail`, influencerMail)
-                .then((res) => {
-                    setLoading(false);
-                    // You can add a toast or message here for the influencer
-                })
-                .catch((err) => {
-                    setLoading(false);
-                    console.error("Error sending influencer email:", err.message);
-                    toast.error("Failed to send influencer email. Please try again.");
-                });
-        } catch (err) {
-            console.error("Error sending influencer email:", err.message);
-        }
-    }
-
+ 
+  const firstEmail = async (c_name, c_email, c_mobile) =>{
+    setLoading(true)
     try {
-      axios
-        .post('https://emerald-sockeye-tux.cyclic.app/api/confirm/add', confirmedUser)
-        .then((response) => {
-          setLoading(false);
-          toast.success('You Confirmed This User');
-          handleDelete(id);
+      let data = Email(c_name, c_email, c_mobile);
+      let to = c_email;
+      let sub = "Wokshop Registration details";
+
+      let final = {
+        to,
+        subject: sub,
+        content: data,
+      };
+
+      setLoading(true);
+
+      await axios
+        .post(`${URL}/api/send/mail`, final)
+        .then((res) => {
+          setLoading(false)
+          alert("👍")
+        
         })
-        .catch((error) => {
-          setLoading(false);
-          toast.error('Error confirming the user');
-          console.error(error);
-        });
-    } catch (error) {
-      setLoading(false);
-      toast.error('An error occurred while confirming the user');
-      console.error('Error:', error);
+        .catch((err) => toast.error(err.message));
+    } catch (err) {
+      console.log(err.message);
+      setLoading(false)
+      alert(err.message)
     }
-  };
-  const confirmAll = () => {
-    setLoading(true);
+  }
+  // const confirmAll = () => {
+  //   setLoading(true);
 
-    // Create an array of promises for each user confirmation
-    const confirmationPromises = users.map((user) => {
-      return confirm(user.name, user.email, user.mobile, user.coupon, user._id);
-    });
+  //   // Create an array of promises for each user confirmation
+  //   const confirmationPromises = users.map((user) => {
+  //     return confirm(user.name, user.email, user.mobile, user.coupon, user._id);
+  //   });
 
-    // Use Promise.all to wait for all confirmations to complete
-    Promise.all(confirmationPromises)
-      .then(() => {
-        // After all confirmations are done, clear the users' state
-        setUsers([]);
-        setLoading(false);
-        toast.success('All users confirmed and cleared from the list');
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error('Error confirming users: ' + error);
-        console.error(error);
-      });
-  };
+  //   // Use Promise.all to wait for all confirmations to complete
+  //   Promise.all(confirmationPromises)
+  //     .then(() => {
+  //       // After all confirmations are done, clear the users' state
+  //       setUsers([]);
+  //       setLoading(false);
+  //       toast.success('All users confirmed and cleared from the list');
+  //     })
+  //     .catch((error) => {
+  //       setLoading(false);
+  //       toast.error('Error confirming users: ' + error);
+  //       console.error(error);
+  //     });
+  // };
 
   const handleDelete = (userId) => {
     // Send a DELETE request to your backend to delete the user
@@ -165,6 +135,7 @@ function Users() {
         toast.error('An error occurred while deleting the user. Please try again.');
       });
   };
+ 
 
   return (
     <div>
@@ -205,7 +176,7 @@ function Users() {
                       type="button"
                       className="btn bg-primary text-white"
                       onClick={() =>
-                        confirm(user.name, user.email, user.mobile, user.coupon, user._id)
+                        firstEmail(user.name, user.email, user.mobile)
                       }
                     >
                       Confirm

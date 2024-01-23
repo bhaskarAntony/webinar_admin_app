@@ -22,7 +22,7 @@ function InfluencerList() {
   }, []);
   const handleDelete = (influencerId) => {
     // Send a DELETE request to your backend to delete the influencer
-    axios.delete(`https://emerald-sockeye-tux.cyclic.app/api/influencers/delete/${influencerId}`)
+    axios.delete(`https://dull-trousers-deer.cyclic.app/influencers/delete/${influencerId}`)
       .then(() => {
         // Remove the deleted influencer from the state
         setInfluencers((prevInfluencers) => prevInfluencers.filter((influencer) => influencer._id !== influencerId));

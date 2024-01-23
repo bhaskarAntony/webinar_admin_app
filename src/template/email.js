@@ -1,4 +1,5 @@
-const Email = (name, email, mobile, coupon, influencer) => `
+const Email = (name, email, mobile) =>
+ `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,14 +78,7 @@ const Email = (name, email, mobile, coupon, influencer) => `
                 <th>Mobile</th>
                 <td>${mobile}</td>
             </tr>
-            <tr>
-                <th>Coupon Code</th>
-                <td>${coupon}</td>
-            </tr>
-            <tr>
-                <th>Influencer</th>
-                <td>${influencer}</td>
-            </tr>
+           
         </table>
     </div>
 </body>
